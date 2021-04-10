@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -75,23 +76,20 @@ public class BinaryTree {
     public ArrayList<Integer> inOrder()
     {
         //left-node-right
-        ArrayList<Integer> toReturn = new ArrayList<Integer>();
         BinaryTreeNode currentNode = root;
         if (isEmpty()) {
             return null;
         }
-        inOrder(currentNode);
-
-        return toReturn;
+        return inOrder(currentNode, new ArrayList<>());
     }
 
-    private ArrayList<Integer> inOrder(BinaryTreeNode node){
-        ArrayList<Integer> res = new ArrayList<Integer>();
+    private ArrayList<Integer> inOrder(BinaryTreeNode node, ArrayList<Integer> res){
         if (node == null){
-            inOrder(node.getLeftChild());
-            res.add(node.getElement());
-            inOrder(node.getRightChild());
+            return null;
         }
+        inOrder(node.getLeftChild(), res);
+        res.add(node.getElement());
+        inOrder(node.getRightChild(), res);
         return res;
     }
 
@@ -100,25 +98,22 @@ public class BinaryTree {
 
     public ArrayList<Integer> preOrder()
     {
-        ArrayList<Integer> toReturn = new ArrayList<Integer>();
         BinaryTreeNode currentNode = root;
         //node-left-right
         if (isEmpty()) {
             return null;
         } else {
-            preOrder(currentNode);
+            return preOrder(currentNode, new ArrayList<>());
         }
-        return toReturn;
     }
 
-    private ArrayList<Integer> preOrder(BinaryTreeNode node){
-        ArrayList<Integer> res = new ArrayList<Integer>();
+    private ArrayList<Integer> preOrder(BinaryTreeNode node, ArrayList<Integer> res){
         if (node == null){
             return null;
         }
         res.add(node.getElement());
-        preOrder(node.getLeftChild());
-        preOrder(node.getRightChild());
+        preOrder(node.getLeftChild(), res);
+        preOrder(node.getRightChild(), res);
 
         return res;
     }
@@ -127,24 +122,21 @@ public class BinaryTree {
 
     public ArrayList<Integer> postOrder()
     {
-        ArrayList<Integer> toReturn = new ArrayList<Integer>();
         BinaryTreeNode currentNode = root;
         //left-right-node TODO
         if (isEmpty()) {
             return null;
         } else {
-            postOrder(currentNode);
+            return postOrder(currentNode, new ArrayList<>());
         }
-        return toReturn;
     }
 
-    public ArrayList<Integer> postOrder(BinaryTreeNode node){
-        ArrayList<Integer> res = new ArrayList<Integer>();
+    private ArrayList<Integer> postOrder(BinaryTreeNode node, ArrayList<Integer> res){
         if (node == null){
             return null;
         }
-        postOrder(node.getLeftChild());
-        postOrder(node.getRightChild());
+        postOrder(node.getLeftChild(), res);
+        postOrder(node.getRightChild(), res);
         res.add(node.getElement());
 
         return res;
@@ -182,19 +174,21 @@ public class BinaryTree {
         BinaryTreeNode currentNode = root;
         if (isEmpty()) {
             return -1;
-        } else {
-            return height(currentNode);
         }
+
+        Integer max = 0;
+        height(max, 0, currentNode);
+
+        return max;
     }
 
-    public int height(BinaryTreeNode node){
-        if (node == null){
-            return 0;
-        }
-        if (node.getRightChild() == null){
-            return height(node.getLeftChild()) + 1;
-        } else {
-            return height(node.getLeftChild()) + 1;
+    private void height(Integer max, int height, BinaryTreeNode node){
+        if (node != null){
+            if (height > max){
+                max = height;
+            }
+            height(max, height + 1, node.getLeftChild());
+            height(max, height + 1, node.getRightChild());
         }
     }
 
