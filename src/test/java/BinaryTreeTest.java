@@ -85,7 +85,7 @@ public class BinaryTreeTest {
 
     @Test
     void testContains() {
-        buildTreeSmall();
+        buildTreeBig();
         assertTrue(tree.contains(3));
     }
 
