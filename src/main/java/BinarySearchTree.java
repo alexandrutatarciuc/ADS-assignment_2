@@ -61,33 +61,79 @@ public class BinarySearchTree extends BinaryTree {
   {
     BinaryTreeNode tmpNode = null;
     BinaryTreeNode foundNode = null;
+    BinaryTreeNode parentNode = null;
 
     if (super.contains(element))
     {
 
-     tmpNode = super.getRoot();
-     foundNode = Search(tmpNode,element); // this need to return the parent of the element that needs to be deleted
+      tmpNode = super.getRoot();
+      foundNode = Search(tmpNode, element); // this need to return the parent of the element that needs to be deleted
+      parentNode = Parent(tmpNode, element);
 
       // check if the element has kids
 
-     if(foundNode.getLeftChild() == null && foundNode.getRightChild()==null){
-       foundNode=null;
-     }
-     if(foundNode.getRightChild() == null){
-       foundNode.setElement(foundNode.getLeftChild().getElement());
-       BinaryTreeNode left = foundNode.getLeftChild();
-       left = null;
-     }
+      //case 1
 
-     if(foundNode.getLeftChild() == null){
-       foundNode.setElement(foundNode.getRightChild().getElement());
-       BinaryTreeNode right = foundNode.getRightChild();
-       right = null;
-     }
+      if (foundNode.getLeftChild() == null && foundNode.getRightChild() == null)
+      {
+        if (foundNode.getElement() < parentNode.getElement())
+        {
+          parentNode.addLeftChild(null);
+        }
+        else
+        {
+          parentNode.addRightChild(null);
+        }
+      } else  if(foundNode.getLeftChild() == null || foundNode.getRightChild() ==null)
+      {
+        //case 2
+        fourTwenty(foundNode, parentNode);
+      }
 
-        
+      //case 3
+
+      else {
+
+        ArrayList<Integer> tempArray = super.inOrder();
+       int i =  tempArray.indexOf(foundNode.getElement());
+       BinaryTreeNode replacementNode = Search(super.getRoot(),tempArray.get(i+1));
+       BinaryTreeNode replacementParent = Parent(super.getRoot(),tempArray.get(i+1));
+       fourTwenty(replacementNode,replacementParent);
+        foundNode.setElement(replacementNode.getElement());
+      }
 
     }
+
+  }
+
+  private void fourTwenty(BinaryTreeNode foundNode,BinaryTreeNode parentNode){
+      if (foundNode.getLeftChild() != null)
+    {
+      if (foundNode.getElement() < parentNode.getElement())
+      {
+        parentNode.addLeftChild(foundNode.getLeftChild());
+      }
+      else
+      {
+        parentNode.addRightChild(foundNode.getLeftChild());
+      }
+
+    }
+
+    else if (foundNode.getRightChild() != null)
+    {
+      if (foundNode.getElement() < parentNode.getElement())
+      {
+        parentNode.addLeftChild(foundNode.getRightChild());
+      }
+      else
+      {
+        parentNode.addRightChild(foundNode.getRightChild());
+      }
+    }
+
+    foundNode.addRightChild(null);
+    foundNode.addLeftChild(null);
 
   }
 
@@ -194,9 +240,7 @@ public class BinarySearchTree extends BinaryTree {
   }
 
   private BinaryTreeNode Parent(BinaryTreeNode node, int element){
-      if(node == null || node.getElement() == element){
-        return null;
-      }
+
       if((node.getLeftChild()!=null && node.getLeftChild().getElement() == element) || (node.getRightChild() !=null && node.getRightChild().getElement()==element)){
         return node;
       }
@@ -204,6 +248,8 @@ public class BinarySearchTree extends BinaryTree {
       if(temp !=null){
         return temp;
       }
+    temp =Parent(node.getRightChild(),element);
+    return temp;
   }
 
 }
