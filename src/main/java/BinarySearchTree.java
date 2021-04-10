@@ -1,31 +1,110 @@
-public class BinarySearchTree extends BinaryTree {
+public class BinarySearchTree extends BinaryTree
+{
+  public BinarySearchTree()
+  {
 
-    public BinarySearchTree(BinaryTreeNode node) {
-        super.setRoot(node);
+  }
+
+  public BinarySearchTree(BinaryTreeNode node)
+  {
+    super.setRoot(node);
+  }
+
+  public void insert(int element)
+  {
+
+    BinaryTreeNode tmpNode = null;
+
+    if (super.getRoot() == null)
+    {
+      super.setRoot(new BinaryTreeNode(element, null, null));
     }
 
-    public void insert(int element)
+    if (!super.contains(element))
+    {
+      tmpNode = super.getRoot();
+      while (true)
+      {
+        if (tmpNode.getElement() <= element)
+        {
+          if (tmpNode.getRightChild() != null)
+          {
+            tmpNode = tmpNode.getRightChild();
+          }
+          else
+          {
+            tmpNode.addRightChild(new BinaryTreeNode(element));
+            break;
+          }
+        }
+
+        else
+        {
+          if (tmpNode.getLeftChild() != null)
+          {
+            tmpNode = tmpNode.getLeftChild();
+          }
+          else
+          {
+            tmpNode.addLeftChild(new BinaryTreeNode(element));
+            break;
+          }
+
+        }
+      }
+
+    }
+
+  }
+
+  public void removeElement(int element)
+  {
+
+    if (super.contains(element))
     {
 
+        
+
     }
 
-    public void removeElement(int element)
+  }
+
+  public int findMin()
+  {
+    BinaryTreeNode tmpNode = null;
+
+    if (super.getRoot() != null)
+    {
+      tmpNode = super.getRoot();
+      while (tmpNode.getLeftChild() != null)
+      {
+        tmpNode = tmpNode.getLeftChild();
+
+      }
+
+    }
+    return tmpNode.getElement();
+  }
+
+  public int findMax()
+  {
+    BinaryTreeNode tmpNode = null;
+    if (super.getRoot() != null)
     {
 
-    }
+      tmpNode = super.getRoot();
 
-    public int findMin()
-    {
-        return 0;   //TODO
-    }
+      while (tmpNode.getRightChild() != null)
+      {
+        tmpNode = tmpNode.getRightChild();
 
-    public int findMax()
-    {
-        return 0;   //TODO
+      }
     }
+    return tmpNode.getElement();
+  }
 
-    public void rebalance()
-    {
+  public void rebalance()
+  {
 
-    }
+  }
 }
