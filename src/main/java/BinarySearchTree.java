@@ -125,9 +125,9 @@ public class BinarySearchTree extends BinaryTree {
     return middleIndex;
   }
 
-  public BinaryTreeNode addChildrenRecursive(ArrayList<Integer> list, BinaryTreeNode node)
+  private BinaryTreeNode addChildrenRecursive(ArrayList<Integer> list, BinaryTreeNode node)
   {
-    int currentMiddleIndex = getMiddleIndexInOrder(list);
+    int middleIndex = getMiddleIndexInOrder(list);
     int lowerIndex = 0;
     int upperIndex = list.size();
 
@@ -147,9 +147,11 @@ public class BinarySearchTree extends BinaryTree {
     }
     else
     {
-      lowerList = (ArrayList<Integer>) list.subList(lowerIndex, currentMiddleIndex);
-      upperList = (ArrayList<Integer>) list.subList(++currentMiddleIndex, upperIndex);
+      lowerList = new ArrayList<Integer>(list.subList(lowerIndex, middleIndex));
+      upperList = new ArrayList<Integer>(list.subList(++middleIndex, upperIndex));
 
+      System.out.println(lowerList.get(getMiddleIndexInOrder(lowerList)));
+      System.out.println(upperList.get(getMiddleIndexInOrder(upperList)));
       BinaryTreeNode leftChild = new BinaryTreeNode(lowerList.get(getMiddleIndexInOrder(lowerList)));
       BinaryTreeNode rightChild = new BinaryTreeNode(upperList.get(getMiddleIndexInOrder(upperList)));
 
