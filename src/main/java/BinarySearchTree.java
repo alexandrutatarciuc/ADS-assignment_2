@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 public class BinarySearchTree extends BinaryTree {
 
+    public BinarySearchTree() {
+    }
+
     public BinarySearchTree(BinaryTreeNode node) {
         super.setRoot(node);
     }

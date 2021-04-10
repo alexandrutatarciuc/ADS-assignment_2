@@ -4,6 +4,9 @@ public abstract class BinaryTree {
 
     private BinaryTreeNode root;
 
+    public BinaryTree() {
+    }
+
     public BinaryTreeNode getRoot() {
         return root;
     }
