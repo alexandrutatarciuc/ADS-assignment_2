@@ -105,61 +105,21 @@ public class BinarySearchTree extends BinaryTree {
     return tmpNode.getElement();
   }
 
-  public void rebalance()
-  {
-    ArrayList<Integer> inOrderTraversal = super.inOrder();
-
-    int currentMiddleIndex = getMiddleIndexInOrder(inOrderTraversal);
-
-    BinaryTreeNode newRoot = new BinaryTreeNode(inOrderTraversal.get(currentMiddleIndex));
-
-    newRoot = addChildrenRecursive(inOrderTraversal, newRoot);
-
-    super.setRoot(newRoot);
+  public void rebalance() {
+    ArrayList<Integer> tree = inOrder();
+    setRoot(null);
+    int min = 0;
+    int max = tree.size() - 1;
+    rebalance(tree, min, max);
   }
 
-
-  private int getMiddleIndexInOrder(ArrayList<Integer> inOrder)
-  {
-    int middleIndex = inOrder.size()/2;
-    return middleIndex;
-  }
-
-  private BinaryTreeNode addChildrenRecursive(ArrayList<Integer> list, BinaryTreeNode node)
-  {
-    int middleIndex = getMiddleIndexInOrder(list);
-    int lowerIndex = 0;
-    int upperIndex = list.size();
-
-    ArrayList<Integer> lowerList;
-    ArrayList<Integer> upperList;
-    if (list.size() == 2)
-    {
-      node.addLeftChild(new BinaryTreeNode(list.get(lowerIndex)));
+  private void rebalance(ArrayList<Integer> tree, int min, int max) {
+    if (max >= min) {
+      int mid = min + (max - min) / 2;
+      insert(tree.get(mid));
+      rebalance(tree, min, mid - 1);
+      rebalance(tree, mid + 1, max);
     }
-    else if (list.size() == 3)
-    {
-      BinaryTreeNode leftChild = new BinaryTreeNode(list.get(lowerIndex));
-      BinaryTreeNode rightChild = new BinaryTreeNode(list.get(upperIndex));
-
-      node.addLeftChild(leftChild);
-      node.addRightChild(rightChild);
-    }
-    else
-    {
-      lowerList = new ArrayList<Integer>(list.subList(lowerIndex, middleIndex));
-      upperList = new ArrayList<Integer>(list.subList(++middleIndex, upperIndex));
-
-      System.out.println(lowerList.get(getMiddleIndexInOrder(lowerList)));
-      System.out.println(upperList.get(getMiddleIndexInOrder(upperList)));
-      BinaryTreeNode leftChild = new BinaryTreeNode(lowerList.get(getMiddleIndexInOrder(lowerList)));
-      BinaryTreeNode rightChild = new BinaryTreeNode(upperList.get(getMiddleIndexInOrder(upperList)));
-
-      node.addLeftChild(addChildrenRecursive(lowerList, leftChild));
-      node.addRightChild(addChildrenRecursive(upperList, rightChild));
-    }
-
-    return node;
   }
 
 }
