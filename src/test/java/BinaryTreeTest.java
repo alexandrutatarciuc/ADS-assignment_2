@@ -153,7 +153,7 @@ public class BinaryTreeTest {
     void testPostOrder() {
         buildTreeBig();
         ArrayList<Integer> test = new ArrayList<>();
-        test.add(4);
+/*        test.add(4);
         test.add(6);
         test.add(2);
         test.add(10);
@@ -161,6 +161,16 @@ public class BinaryTreeTest {
         test.add(9);
         test.add(5); // or 7
         test.add(7); // or 5
+        test.add(3);
+        test.add(1);*/
+        test.add(4);
+        test.add(6);
+        test.add(2);
+        test.add(5);
+        test.add(10);
+        test.add(8);
+        test.add(9);
+        test.add(7);
         test.add(3);
         test.add(1);
         assertArrayEquals(test.toArray(), tree.postOrder().toArray());
@@ -181,5 +191,17 @@ public class BinaryTreeTest {
         test.add(9);
         test.add(10);
         assertArrayEquals(test.toArray(), tree.levelOrder().toArray());
+    }
+
+    @Test
+    void testHeightSmall() {
+        buildTreeSmall();
+        assertEquals(2, tree.height());
+    }
+
+    @Test
+    void testHeightBig() {
+        buildTreeBig();
+        assertEquals(4, tree.height());
     }
 }
