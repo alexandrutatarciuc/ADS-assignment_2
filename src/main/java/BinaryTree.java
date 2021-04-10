@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class BinaryTree {
+public class BinaryTree {
 
     private BinaryTreeNode root;
 
