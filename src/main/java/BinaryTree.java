@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 
-public abstract class BinaryTree {
+public class BinaryTree {
 
     private BinaryTreeNode root;
+
+    public BinaryTree() {
+    }
 
     public BinaryTreeNode getRoot() {
         return root;

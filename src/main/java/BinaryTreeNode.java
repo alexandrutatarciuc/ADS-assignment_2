@@ -18,8 +18,9 @@ public class BinaryTreeNode {
 
     public void setElement(int element)
     {
-
+        value = element;
     }
+
     public int getElement()
     {
         return value;
@@ -27,12 +28,12 @@ public class BinaryTreeNode {
 
     public void addLeftChild(BinaryTreeNode node)
     {
-
+        leftNode = node;
     }
 
     public void addRightChild(BinaryTreeNode node)
     {
-
+        rightNode = node;
     }
 
     public BinaryTreeNode getLeftChild()

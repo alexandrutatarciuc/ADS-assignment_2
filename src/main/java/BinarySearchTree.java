@@ -1,15 +1,15 @@
-public class BinarySearchTree extends BinaryTree
-{
-  public BinarySearchTree()
-  {
 
-  }
+import java.util.ArrayList;
 
-  public BinarySearchTree(BinaryTreeNode node)
-  {
-    super.setRoot(node);
-  }
+public class BinarySearchTree extends BinaryTree {
 
+    public BinarySearchTree() {
+    }
+
+    public BinarySearchTree(BinaryTreeNode node) {
+        super.setRoot(node);
+    }
+    
   public void insert(int element)
   {
 
@@ -92,6 +92,7 @@ public class BinarySearchTree extends BinaryTree
     if (super.getRoot() != null)
     {
 
+
       tmpNode = super.getRoot();
 
       while (tmpNode.getRightChild() != null)
@@ -99,12 +100,27 @@ public class BinarySearchTree extends BinaryTree
         tmpNode = tmpNode.getRightChild();
 
       }
+
     }
     return tmpNode.getElement();
   }
 
   public void rebalance()
   {
+    ArrayList<Integer> inOrderTraversal = super.inOrder();
+    int middleElement = inOrderTraversal.size()/2;
+    BinaryTreeNode newRoot = new BinaryTreeNode(middleElement);
+    super.setRoot(newRoot);
 
+    boolean reachedMiddle = false;
+    for (int i: inOrderTraversal) {
+      if (i == middleElement && !reachedMiddle)
+      {
+        reachedMiddle = true;
+        continue;
+      }
+
+      insert(i);
+    }
   }
 }
