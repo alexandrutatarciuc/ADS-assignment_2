@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinarySearchTree extends BinaryTree {
 
     public BinarySearchTree(BinaryTreeNode node) {
@@ -26,6 +28,20 @@ public class BinarySearchTree extends BinaryTree {
 
     public void rebalance()
     {
+        ArrayList<Integer> inOrderTraversal = super.inOrder();
+        int middleElement = inOrderTraversal.size()/2;
+        BinaryTreeNode newRoot = new BinaryTreeNode(middleElement);
+        super.setRoot(newRoot);
 
+        boolean reachedMiddle = false;
+        for (int i: inOrderTraversal) {
+            if (i == middleElement && !reachedMiddle)
+            {
+                reachedMiddle = true;
+                continue;
+            }
+
+            insert(i);
+        }
     }
 }
