@@ -108,19 +108,56 @@ public class BinarySearchTree extends BinaryTree {
   public void rebalance()
   {
     ArrayList<Integer> inOrderTraversal = super.inOrder();
-    int middleElement = inOrderTraversal.size()/2;
-    BinaryTreeNode newRoot = new BinaryTreeNode(middleElement);
+
+    int currentMiddleIndex = getMiddleIndexInOrder(inOrderTraversal);
+
+    BinaryTreeNode newRoot = new BinaryTreeNode(inOrderTraversal.get(currentMiddleIndex));
+
+    newRoot = addChildrenRecursive(inOrderTraversal, newRoot);
+
     super.setRoot(newRoot);
-
-    boolean reachedMiddle = false;
-    for (int i: inOrderTraversal) {
-      if (i == middleElement && !reachedMiddle)
-      {
-        reachedMiddle = true;
-        continue;
-      }
-
-      insert(i);
-    }
   }
+
+
+  private int getMiddleIndexInOrder(ArrayList<Integer> inOrder)
+  {
+    int middleIndex = inOrder.size()/2;
+    return middleIndex;
+  }
+
+  public BinaryTreeNode addChildrenRecursive(ArrayList<Integer> list, BinaryTreeNode node)
+  {
+    int currentMiddleIndex = getMiddleIndexInOrder(list);
+    int lowerIndex = 0;
+    int upperIndex = list.size();
+
+    ArrayList<Integer> lowerList;
+    ArrayList<Integer> upperList;
+    if (list.size() == 2)
+    {
+      node.addLeftChild(new BinaryTreeNode(list.get(lowerIndex)));
+    }
+    else if (list.size() == 3)
+    {
+      BinaryTreeNode leftChild = new BinaryTreeNode(list.get(lowerIndex));
+      BinaryTreeNode rightChild = new BinaryTreeNode(list.get(upperIndex));
+
+      node.addLeftChild(leftChild);
+      node.addRightChild(rightChild);
+    }
+    else
+    {
+      lowerList = (ArrayList<Integer>) list.subList(lowerIndex, currentMiddleIndex);
+      upperList = (ArrayList<Integer>) list.subList(++currentMiddleIndex, upperIndex);
+
+      BinaryTreeNode leftChild = new BinaryTreeNode(lowerList.get(getMiddleIndexInOrder(lowerList)));
+      BinaryTreeNode rightChild = new BinaryTreeNode(upperList.get(getMiddleIndexInOrder(upperList)));
+
+      node.addLeftChild(addChildrenRecursive(lowerList, leftChild));
+      node.addRightChild(addChildrenRecursive(upperList, rightChild));
+    }
+
+    return node;
+  }
+
 }
