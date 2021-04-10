@@ -3,6 +3,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BinaryTree {
 
@@ -40,7 +41,24 @@ public class BinaryTree {
         }
     }
 
-    public boolean contains(int value)
+    public boolean contains(int value) {
+        return contains(root, value);
+    }
+
+    private boolean contains(BinaryTreeNode node, int value) {
+        if(node == null)
+            return false;
+        else if (node.getElement()==value)
+            return true;
+        else {
+            if(value < node.getElement())
+                return contains(node.getLeftChild(), value);
+            else
+                return contains(node.getRightChild(), value);
+        }
+    }
+
+   /* public boolean contains(int value)
     {
         BinaryTreeNode currentNode = root;
         if(currentNode.getElement() == value || currentNode.getLeftChild().getElement() == value || currentNode.getRightChild().getElement() == value)
@@ -69,7 +87,7 @@ public class BinaryTree {
             }
             return true;
         }
-    }
+    }*/
 
     //IN-ORDER
 
@@ -176,16 +194,16 @@ public class BinaryTree {
             return -1;
         }
 
-        Integer max = 0;
+        AtomicInteger max = new AtomicInteger(0);
         height(max, 0, currentNode);
 
-        return max;
+        return max.get();
     }
 
-    private void height(Integer max, int height, BinaryTreeNode node){
+    private void height(AtomicInteger max, int height, BinaryTreeNode node){
         if (node != null){
-            if (height > max){
-                max = height;
+            if (height > max.get()){
+                max.set(height);
             }
             height(max, height + 1, node.getLeftChild());
             height(max, height + 1, node.getRightChild());

@@ -93,6 +93,7 @@ public class BinarySearchTreeTest {
     void rebalance() {
         buildTreeBig();
         tree.rebalance();
+        print.printTree(tree.getRoot());
         /*ArrayList<Integer> test = new ArrayList<>();
         test.add(4);
         test.add(2);
@@ -106,6 +107,5 @@ public class BinarySearchTreeTest {
         test.add(10);
         assertArrayEquals(test.toArray(), tree.levelOrder().toArray());*/
         assertEquals(3, tree.height());
-        print.printTree(tree.getRoot());
     }
 }
