@@ -165,13 +165,10 @@ public class BinarySearchTree extends BinaryTree {
         ArrayList<Integer> lowerList;
         ArrayList<Integer> upperList;
         if (list.size() == 2) {
-            node.addLeftChild(new BinaryTreeNode(list.get(lowerIndex)));
+            insert(list.get(lowerIndex));
         } else if (list.size() == 3) {
-            BinaryTreeNode leftChild = new BinaryTreeNode(list.get(lowerIndex));
-            BinaryTreeNode rightChild = new BinaryTreeNode(list.get(upperIndex));
-
-            node.addLeftChild(leftChild);
-            node.addRightChild(rightChild);
+            insert(list.get(lowerIndex));
+            insert(list.get(upperIndex));
         } else {
             lowerList = new ArrayList<Integer>(list.subList(lowerIndex, middleIndex));
             upperList = new ArrayList<Integer>(list.subList(++middleIndex, upperIndex));
@@ -181,13 +178,11 @@ public class BinarySearchTree extends BinaryTree {
             BinaryTreeNode leftChild = new BinaryTreeNode(lowerList.get(getMiddleIndexInOrder(lowerList)));
             BinaryTreeNode rightChild = new BinaryTreeNode(upperList.get(getMiddleIndexInOrder(upperList)));
 
-            node.addLeftChild(addChildrenRecursive(lowerList, leftChild));
-            node.addRightChild(addChildrenRecursive(upperList, rightChild));
+            insert(addChildrenRecursive(lowerList, leftChild).getElement());
+            insert(addChildrenRecursive(upperList, rightChild).getElement());
         }
-
         return node;
     }
-
 
     private BinaryTreeNode Search(BinaryTreeNode node, int element) {
         if (node == null || node.getElement() == element) {
