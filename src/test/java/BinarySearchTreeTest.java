@@ -65,9 +65,10 @@ public class BinarySearchTreeTest {
 
     @Test
     void removeExisting() {
-        buildTreeSmall();
-        tree.removeElement(2);
-        assertEquals(4, tree.size());
+        buildTreeBig();
+        tree.removeElement(6);
+        print.printTree(tree.getRoot());
+        assertEquals(9, tree.size());
     }
 
     @Test
