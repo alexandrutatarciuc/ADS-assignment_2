@@ -140,44 +140,19 @@ public class BinarySearchTree extends BinaryTree {
     }
 
     public void rebalance() {
-        ArrayList<Integer> inOrderTraversal = super.inOrder();
-        int currentMiddleIndex = getMiddleIndexInOrder(inOrderTraversal);
-        BinaryTreeNode newRoot = new BinaryTreeNode(inOrderTraversal.get(currentMiddleIndex));
-        super.setRoot(newRoot);
-        addChildrenRecursive(inOrderTraversal);
+        ArrayList<Integer> tree = inOrder();
+        setRoot(null);
+        int min = 0;
+        int max = tree.size() - 1;
+        rebalance(tree, min, max);
     }
 
-
-    private int getMiddleIndexInOrder(ArrayList<Integer> inOrder) {
-        int middleIndex = inOrder.size() / 2;
-        return middleIndex;
-    }
-
-    private void addChildrenRecursive(ArrayList<Integer> list)
-    {
-        int middleIndex = getMiddleIndexInOrder(list);
-        int lowerIndex = 0;
-        int upperIndex = list.size();
-
-        ArrayList<Integer> lowerList;
-        ArrayList<Integer> upperList;
-
-        if (list.size() > 2)
-        {
-            lowerList = new ArrayList<Integer>(list.subList(lowerIndex, middleIndex));
-            upperList = new ArrayList<Integer>(list.subList(++middleIndex, upperIndex));
-            int leftChild = lowerList.get(getMiddleIndexInOrder(lowerList));
-            int rightChild = upperList.get(getMiddleIndexInOrder(upperList));
-
-            insert(leftChild);
-            insert(rightChild);
-
-            addChildrenRecursive(lowerList);
-            addChildrenRecursive(upperList);
-        }
-        else
-        {
-            insert(list.get(0));
+    private void rebalance(ArrayList<Integer> tree, int min, int max) {
+        if (max >= min) {
+            int mid = min + (max - min) / 2;
+            insert(tree.get(mid));
+            rebalance(tree, min, mid - 1);
+            rebalance(tree, mid + 1, max);
         }
     }
 
